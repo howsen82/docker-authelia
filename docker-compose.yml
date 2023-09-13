@@ -12,7 +12,6 @@ services:
       - 9091:9091
     networks:
       - proxy
-    restart: unless-stopped
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.authelia.rule=Host(`auth.local.example.com`)'
@@ -21,9 +20,10 @@ services:
       - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://auth.local.example.com'
       - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'
+    restart: unless-stopped
     healthcheck:
       disable: true
-      
+
 networks:
   proxy:
     external: true
